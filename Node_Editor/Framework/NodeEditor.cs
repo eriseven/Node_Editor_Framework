@@ -14,7 +14,7 @@ namespace NodeEditorFramework
 	/// </summary>
 	public static partial class NodeEditor 
 	{
-		public static string editorPath = "Assets/Plugins/Node_Editor/";
+		public static string editorPath = "Assets/Plugins/Node_Editor_Framework/Node_Editor/";
 
 		// The NodeCanvas which represents the currently drawn Node Canvas; globally accessed
 		public static NodeCanvas curNodeCanvas;
@@ -310,30 +310,32 @@ namespace NodeEditorFramework
 		public static Node NodeAtPosition (Vector2 canvasPos)
 		{
 			ConnectionKnob focusedKnob;
-			return NodeAtPosition (curEditorState, canvasPos, out focusedKnob);
+            NodeEditorState.Connection focusedConnection;
+			return NodeAtPosition (curEditorState, canvasPos, out focusedKnob, out focusedConnection);
 		}
 
 		/// <summary>
 		/// Returns the node at the specified canvas-space position in the current editor and returns a possible focused knob aswell
 		/// </summary>
-		public static Node NodeAtPosition (Vector2 canvasPos, out ConnectionKnob focusedKnob)
+		public static Node NodeAtPosition (Vector2 canvasPos, out ConnectionKnob focusedKnob, out NodeEditorState.Connection focusedConnection)
 		{
-			return NodeAtPosition (curEditorState, canvasPos, out focusedKnob);
+			return NodeAtPosition (curEditorState, canvasPos, out focusedKnob, out focusedConnection);
 		}
 
 		/// <summary>
 		/// Returns the node at the specified canvas-space position in the specified editor and returns a possible focused knob aswell
 		/// </summary>
-		public static Node NodeAtPosition (NodeEditorState editorState, Vector2 canvasPos, out ConnectionKnob focusedKnob)
+		public static Node NodeAtPosition (NodeEditorState editorState, Vector2 canvasPos, out ConnectionKnob focusedKnob, out NodeEditorState.Connection focusedConnection)
 		{
 			focusedKnob = null;
+            focusedConnection = null;
 			if (editorState == null || NodeEditorInputSystem.shouldIgnoreInput (editorState))
 				return null;
 			NodeCanvas canvas = editorState.canvas;
 			for (int nodeCnt = canvas.nodes.Count-1; nodeCnt >= 0; nodeCnt--) 
 			{ // Check from top to bottom because of the render order
 				Node node = canvas.nodes [nodeCnt];
-				if (node.ClickTest (canvasPos, out focusedKnob))
+				if (node.ClickTest (canvasPos, out focusedKnob, out focusedConnection))
 					return node; // Node is clicked on
 			}
 			return null;

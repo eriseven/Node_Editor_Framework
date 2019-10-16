@@ -404,9 +404,10 @@ namespace NodeEditorFramework
 		/// <summary>
 		/// Tests the node whether the specified position is inside any of the node's elements and returns a potentially focused connection knob.
 		/// </summary>
-		public bool ClickTest(Vector2 position, out ConnectionKnob focusedKnob)
+		public bool ClickTest(Vector2 position, out ConnectionKnob focusedKnob, out NodeEditorState.Connection focusedConnection)
 		{
 			focusedKnob = null;
+            focusedConnection = null;
 			if (rect.Contains(position))
 				return true;
 			Vector2 dist = position - rect.center;
@@ -419,6 +420,18 @@ namespace NodeEditorFramework
 					focusedKnob = connectionKnobs[i];
 					return true;
 				}
+
+                foreach (var conn in connectionKnobs[i].connections)
+                {
+                    Vector2 knobSize = new Vector2(NodeEditorGUI.knobSize , NodeEditorGUI.knobSize);
+                    Rect rectRemove = connectionKnobs[i].GetCanvasSpaceRemoveKnob(connectionKnobs[i].GetKnobCenter(knobSize), conn.GetKnobCenter(knobSize));
+                    if (rectRemove.Contains(position))
+                    {
+                        focusedConnection = new NodeEditorState.Connection() { start = connectionKnobs[i], end = conn };
+                        return true;
+                    }
+                }
+                //connectionKnobs[i].connections
 			}
 			return false;
 		}
