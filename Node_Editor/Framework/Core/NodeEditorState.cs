@@ -18,6 +18,13 @@ namespace NodeEditorFramework
 		[NonSerialized] public ConnectionKnob focusedConnectionKnob; // ConnectionKnob under mouse
 		[NonSerialized] public NodeGroup activeGroup; // NodeGroup that is currently interacted with
 
+        public class Connection
+        {
+            public ConnectionKnob start;
+            public ConnectionKnob end;
+        }
+		[NonSerialized] public Connection focusedConnection; // ConnectionKnob under mouse
+
 		// Navigation State
 		public Vector2 panOffset = new Vector2 (); // pan offset
 		public float zoom = 1; // zoom; Ranges in 0.2er-steps from 0.6-2.0; applied 1/zoom;

@@ -230,7 +230,7 @@ namespace NodeEditorFramework
 		{
 			NodeEditorState state = inputInfo.editorState;
 			// Choose focused Node
-			state.focusedNode = NodeEditor.NodeAtPosition (NodeEditor.ScreenToCanvasSpace (inputInfo.inputPos), out state.focusedConnectionKnob);
+			state.focusedNode = NodeEditor.NodeAtPosition (NodeEditor.ScreenToCanvasSpace (inputInfo.inputPos), out state.focusedConnectionKnob, out state.focusedConnection);
 			// Perform focus changes in Repaint, which is the only suitable time to do this
 			if (unfocusControlsForState == state && Event.current.type == EventType.Repaint) 
 			{

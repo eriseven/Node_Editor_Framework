@@ -247,6 +247,11 @@ namespace NodeEditorFramework
 					}
 				}
 			}
+
+			if (inputInfo.inputEvent.button == 0 && state.focusedConnection != null && state.focusedConnection.start != null && state.focusedConnection.end != null)
+            {
+                state.focusedConnection.start.RemoveConnection(state.focusedConnection.end);
+            }
 		}
 
 		[EventHandlerAttribute (EventType.MouseUp)]
