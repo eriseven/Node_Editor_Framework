@@ -231,7 +231,7 @@ namespace NodeEditorFramework
                 NodeEditorGUI.DrawConnection(startPos, startDir, endPos, endDir, color);
 
                 Rect connCenter = GetCanvasSpaceRemoveKnob(startPos, endPos);
-                GUI.DrawTexture(connCenter, knobTexture);
+                GUI.DrawTexture(connCenter, ConnectionStyle.RemoveConnectionTex);
             }
         }
 
@@ -245,7 +245,7 @@ namespace NodeEditorFramework
             NodeEditorGUI.DrawConnection(startPos, startDir, endPos, -startDir, color);
 
             Rect connCenter = GetCanvasSpaceRemoveKnob(startPos, endPos);
-            GUI.DrawTexture(connCenter, knobTexture);
+            GUI.DrawTexture(connCenter, ConnectionStyle.RemoveConnectionTex);
         }
 
         /// <summary>
@@ -404,11 +404,14 @@ namespace NodeEditorFramework
     {
         public virtual string InKnobTexPath { get { return "Textures/In_Knob.png"; } }
         public virtual string OutKnobTexPath { get { return "Textures/Out_Knob.png"; } }
+        public virtual string RemoveConnectionTexPath { get { return "Textures/Icon_Delete.png"; } }
 
         private Texture2D _inKnobTex;
         private Texture2D _outKnobTex;
+        private Texture2D _removeConnectionTex;
         public Texture2D InKnobTex { get { if (_inKnobTex == null) LoadKnobTextures(); return _inKnobTex; } }
         public Texture2D OutKnobTex { get { if (_outKnobTex == null) LoadKnobTextures(); return _outKnobTex; } }
+        public Texture2D RemoveConnectionTex { get { if (_removeConnectionTex == null) LoadKnobTextures(); return _removeConnectionTex; } }
 
         public ConnectionKnobStyle() : base() { }
 
@@ -418,6 +421,7 @@ namespace NodeEditorFramework
         {
             _inKnobTex = ResourceManager.GetTintedTexture(InKnobTexPath, Color);
             _outKnobTex = ResourceManager.GetTintedTexture(OutKnobTexPath, Color);
+            _removeConnectionTex = ResourceManager.GetTintedTexture(RemoveConnectionTexPath, Color.white);
             if (InKnobTex == null || OutKnobTex == null)
                 Debug.LogError("Invalid style '" + Identifier + "': Could not load knob textures from '" + InKnobTexPath + "' and '" + OutKnobTexPath + "'!");
         }
